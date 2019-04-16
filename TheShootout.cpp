@@ -1,10 +1,9 @@
 #include <iostream>
-#include "Map.cpp"
-#include "Player.cpp"
-#include "Cooper.cpp"
-#include "Marshall.cpp"
+#include "Map.h"
+#include "Player.h"
+#include "Cooper.h"
+#include "Marshall.h"
 using namespace std;
-
 
 int main() {
 	int option;

@@ -7,10 +7,15 @@ public:
 	int getPositionY();
 	void setPositionX(int);
 	void setPositionY(int);
-	int getRadius();
+	virtual int getMovement();
+	virtual int getRadius();
 	virtual void Move(int);
-	void die();
+	virtual void die();
+	virtual int getSymbol();
+	//int setSymbol(int);
 private:
-	int positionX, positionY;
+	int positionX;
+	int positionY;
+	int symbol;
 };
 

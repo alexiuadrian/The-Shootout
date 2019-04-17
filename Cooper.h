@@ -5,11 +5,13 @@ class Cooper : public Player {
 public:
 	Cooper();
 	~Cooper();
-	virtual int getMovement();
-	virtual void die();
-	virtual int getRadius();
+	int getMovement();
+	void die();
+	int getRadius();
+	int getSymbol();
 private:
 	int movement;
 	int radius;
+	int symbol;
 };
 

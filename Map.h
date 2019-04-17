@@ -1,18 +1,14 @@
 #pragma once
-#include "Cooper.h"
-#include "Marshall.h"
+#include "Player.h"
 
 
-class Map : public Player
-{
+class Map {
 public:
 	Map();
 	~Map();
 	void show();
-	void Update();
-	void Move();
+	void update(Player&, int);
 private:
 	int** m;
-	Cooper* _C;
-	Marshall* _M;
+	
 };

@@ -7,7 +7,6 @@ Player::Player() {
 	positionY = 0;
 }
 
-
 Player::~Player() {
 
 }
@@ -112,4 +111,12 @@ int Player::getRadius() {
 
 void Player::die() {
 	
+}
+
+int Player::getSymbol() {
+	return 0;
+}
+
+int Player::getMovement() {
+	return 0;
 }

@@ -6,6 +6,7 @@ Cooper::Cooper() {
 	setPositionX(0);
 	setPositionY(0);
 	radius = 2;
+	symbol = 1;
 }
 
 Cooper::~Cooper() {
@@ -24,4 +25,8 @@ void Cooper::die() {
 	setPositionX(25);
 	movement = 0;
 	radius = 0;
+}
+
+int Cooper::getSymbol() {
+	return symbol;
 }

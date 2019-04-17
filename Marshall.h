@@ -5,11 +5,13 @@ class Marshall : public Player {
 public:
 	Marshall();
 	~Marshall();
-	virtual int getMovement();
-	virtual int getRadius();
-	virtual void die();
+	int getMovement();
+	int getRadius();
+	void die();
+	int getSymbol();
 private:
 	int movement;
 	int radius;
+	int symbol;
 };
 

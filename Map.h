@@ -8,6 +8,7 @@ public:
 	~Map();
 	void show();
 	void update(Player&, int);
+
 private:
 	int** m;
 	

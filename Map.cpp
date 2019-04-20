@@ -34,6 +34,7 @@ void Map::show() {
 }
 
 void Map::update(Player& a, int sym) {
+	cout << "Player " << sym << " changed his position to: (" << a.getPositionX() << ", " << a.getPositionY() << ")\n";
 	for(int i=0; i<25; i++) {
 		for(int j=0; j<25; j++) {
 			if(m[i][j] == sym) {

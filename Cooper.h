@@ -1,5 +1,7 @@
 #pragma once
 #include "Player.h"
+#include <time.h>
+#include <stdlib.h>
 
 class Cooper : public Player {
 public:
@@ -7,11 +9,14 @@ public:
 	~Cooper();
 	int getMovement();
 	void die();
-	int getRadius();
+	int getRange();
 	int getSymbol();
+	void shoot(int&, int&, int&, int&);
+	void Move();
+
 private:
 	int movement;
-	int radius;
+	int range;
 	int symbol;
 };
 

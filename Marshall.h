@@ -1,17 +1,21 @@
 #pragma once
 #include "Player.h"
+#include <time.h>
+#include <stdlib.h>
 
 class Marshall : public Player {
 public:
 	Marshall();
 	~Marshall();
 	int getMovement();
-	int getRadius();
+	int getRange();
 	void die();
 	int getSymbol();
+	void Move();
+
 private:
 	int movement;
-	int radius;
+	int range;
 	int symbol;
 };
 

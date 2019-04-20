@@ -9,8 +9,9 @@ class Simulation {
 public:
 	Simulation();
 	~Simulation();
-	void NextRound();
 	void show();
+	void check();
+	void NextRound();
 
 private:
 	Map _MAP;

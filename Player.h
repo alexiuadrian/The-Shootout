@@ -8,11 +8,12 @@ public:
 	void setPositionX(int);
 	void setPositionY(int);
 	virtual int getMovement();
-	virtual int getRadius();
-	virtual void Move(int);
+	virtual int getRange();
+	virtual void Move();
 	virtual void die();
 	virtual int getSymbol();
-	//int setSymbol(int);
+	virtual void shoot(int*, int*, int&, int&);
+
 private:
 	int positionX;
 	int positionY;

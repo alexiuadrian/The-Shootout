@@ -1,6 +1,4 @@
 #include "Player.h"
-#include <time.h>
-#include <stdlib.h>
 
 Player::Player() {
 	positionX = 0;
@@ -27,85 +25,11 @@ void Player::setPositionY(int y) {
 	positionY = y;
 }
 
-void Player::Move(int val) {
-	srand(time(NULL));
-
-	bool ok = false;
-
-	while (!ok) {
-
-		int pos = rand() % 9;
-
-		switch (pos) {
-		case 0: {
-
-		}
-			break;
-		case 1: {
-			if (positionX - val >= 0 && positionY - val >= 0) {
-				positionX -= val;
-				positionY -= val;
-				ok = true;
-			}
-		}
-				break;
-		case 2: {
-			if (positionX - val >= 0) {
-				positionX -= val;
-				ok = true;
-			}
-		}
-				break;
-		case 3: {
-			if (positionX - val >= 0 && positionY + val < 25) {
-				positionX -= val;
-				positionY += val;
-				ok = true;
-			}
-		}
-				break;
-		case 4: {
-			if (positionY + val < 25) {
-				positionY += val;
-				ok = true;
-			}
-		}
-				break;
-		case 5: {
-			if (positionX + val < 25 && positionY + val < 25) {
-				positionX += val;
-				positionY += val;
-				ok = true;
-			}
-		}
-				break;
-		case 6: {
-			if (positionX + val < 25) {
-				positionX += val;
-				ok = true;
-			}
-		}
-				break;
-		case 7: {
-			if (positionX + val < 25 && positionY - val >= 0) {
-				positionX += val;
-				positionY -= val;
-				ok = true;
-			}
-		}
-				break;
-		case 8: {
-			if (positionY - val >= 0) {
-				positionY -= val;
-				ok = true;
-			}
-		}
-				break;
-		}
-	}
+void Player::Move() {
+	
 }
 
-int Player::getRadius() {
+int Player::getRange() {
 	return 0;
 }
 
@@ -119,4 +43,8 @@ int Player::getSymbol() {
 
 int Player::getMovement() {
 	return 0;
+}
+
+void Player::shoot(int* posX, int* posY, int& nrOfPosX, int& nrOfPosY) {  //rng = range-ul armei, *posX, *posY sunt vectori in care vor fi salvate coordonatele traiectoriei gloantelor, nrOfPos nr de elemente din cei doi vectori
+
 }

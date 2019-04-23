@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Cooper.h"
 #include "Marshall.h"
+#include "Coordonata.h"
 
 class Simulation {
 

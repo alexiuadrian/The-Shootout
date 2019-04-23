@@ -2,8 +2,8 @@
 
 Marshall::Marshall() {
 	movement = 1;
-	setPositionX(24);
-	setPositionY(24);
+	setPositionX(16);
+	setPositionY(8);
 	range = 5;
 	symbol = 2;
 }
@@ -24,15 +24,18 @@ void Marshall::die() {
 	movement = 0;
 	setPositionX(25);
 	range = 0;
+	std::cout << "Marshall is dead!\n";
 }
 
 int Marshall::getSymbol() {
 	return symbol;
 }
 
-void Marshall::Move() {
+void Marshall::Move(int enemyPosX, int enemyPosY) { //functie care misca agentul in directia playerului cel mai apropiat
+	/*
 	srand(time(NULL));
 	int pos = rand() % 9;
+
 	bool ok = false;
 
 	while (!ok) {
@@ -106,4 +109,65 @@ void Marshall::Move() {
 				break;
 		}
 	}
+	*/
+
+    if((this->getPositionX() - this->getMovement() != enemyPosX || this->getPositionX() + this->getMovement() != enemyPosX) && (this->getPositionY() - this->getMovement() != enemyPosY || this->getPositionY() + this->getMovement() != enemyPosY)) {
+    if(this->getPositionX() > enemyPosX && this->getPositionX() - this->getMovement() >= 0) {
+        this->setPositionX(this->getPositionX() - this->getMovement());
+    }
+    else if(this->getPositionX() < enemyPosX && this->getPositionX() + this->getMovement() <= 24) {
+        this->setPositionX(this->getPositionX() + this->getMovement());
+    }
+
+    if(this->getPositionY() > enemyPosY && this->getPositionY() - this->getMovement() >= 0) {
+        this->setPositionY(this->getPositionY() - this->getMovement());
+    }
+    else if(this->getPositionY() < enemyPosY && this->getPositionY() + this->getMovement() <= 24) {
+        this->setPositionY(this->getPositionY() + this->getMovement());
+    }
+    }
+
 }
+
+Coordonata* Marshall::shoot(int& nr) {
+    Coordonata* v = new Coordonata[8*range];
+    nr = 0;
+
+    if(this->getPositionX() - 1 >= 0) {
+        if(this->getPositionY() - 1 >= 0) {
+            v[nr].setX(this->getPositionX() - 1);
+            v[nr++].setY(this->getPositionY() - 1);
+        }
+        v[nr].setX(this->getPositionX() - 1);
+        v[nr++].setY(this->getPositionY());
+        if(this->getPositionY() + 1 <= 24) {
+            v[nr].setX(this->getPositionX() - 1);
+            v[nr++].setY(this->getPositionY() + 1);
+        }
+    }
+
+    if(this->getPositionY() - 1 >= 0) {
+        v[nr].setX(this->getPositionX());
+        v[nr++].setY(this->getPositionY() - 1);
+    }
+
+    if(this->getPositionY() + 1 <= 24) {
+        v[nr].setX(this->getPositionX());
+        v[nr++].setY(this->getPositionY() + 1);
+    }
+
+    if(this->getPositionX() + 1 <= 24) {
+        if(this->getPositionY() - 1 >= 0) {
+            v[nr].setX(this->getPositionX() + 1);
+            v[nr++].setY(this->getPositionY() - 1);
+        }
+        v[nr].setX(this->getPositionX() + 1);
+        v[nr++].setY(this->getPositionY());
+        if(this->getPositionY() + 1 <= 24) {
+            v[nr].setX(this->getPositionX() + 1);
+            v[nr++].setY(this->getPositionY() + 1);
+        }
+    }
+    return v;
+}
+

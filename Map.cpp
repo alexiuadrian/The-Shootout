@@ -45,3 +45,41 @@ void Map::update(Player& a, int sym) {
 
 	m[a.getPositionX()][a.getPositionY()] = sym;
 }
+
+int Map::check(Coordonata* v, int nrEl) {   //functie care returneaza primul agent in care agentul a poate sa traga
+    int i;
+
+    /*
+    for(i = a.getPositionX() + 1; i <= posShoot[3]; i++) {
+        if(m[i][a.getPositionY()] != 0) {
+            return m[i][a.getPositionY()];
+        }
+    }
+
+    for(i = a.getPositionX() - 1; i >= posShoot[2]; i--) {
+        if(m[i][a.getPositionY()] != 0) {
+            return m[i][a.getPositionY()];
+        }
+    }
+
+    for(i = a.getPositionY() + 1; i <= posShoot[0]; i++) {
+        if(m[a.getPositionX()][i] != 0) {
+            return m[a.getPositionX()][i];
+        }
+    }
+
+    for(i = a.getPositionY() - 1; i >= posShoot[1]; i--) {
+        if(m[a.getPositionX()][i] != 0) {
+            return m[a.getPositionX()][i];
+        }
+    }
+*/
+
+    for(i = 0; i < nrEl; i++) {
+        if(m[v[i].getX()][v[i].getY()] != 0) {
+            return m[v[i].getX()][v[i].getY()];
+        }
+    }
+
+    return 0;
+}

@@ -2,6 +2,7 @@
 #include "Player.h"
 #include <time.h>
 #include <stdlib.h>
+#include "Coordonata.h"
 
 class Cooper : public Player {
 public:
@@ -11,8 +12,8 @@ public:
 	void die();
 	int getRange();
 	int getSymbol();
-	void shoot(int&, int&, int&, int&);
-	void Move();
+	Coordonata* shoot(int&);
+	void Move(int, int);
 
 private:
 	int movement;

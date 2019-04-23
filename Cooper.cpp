@@ -25,13 +25,15 @@ void Cooper::die() {
 	setPositionX(25);
 	movement = 0;
 	range = 0;
+	std::cout << "Cooper is dead!\n";
 }
 
 int Cooper::getSymbol() {
 	return symbol;
 }
 
-void Cooper::Move() {
+void Cooper::Move(int enemyPosX, int enemyPosY) { //functie care misca agentul in directia playerului cel mai apropiat
+	/*
 	srand(time(NULL));
 	int pos = rand() % 9;
 
@@ -39,7 +41,7 @@ void Cooper::Move() {
 
 	while (!ok) {
 
-		int pos = rand() % 9;
+		pos = rand() % 9;
 
 		switch (pos) {
 		case 0: {
@@ -108,35 +110,85 @@ void Cooper::Move() {
 				break;
 		}
 	}
+	*/
+
+    if((this->getPositionX() - this->getMovement() != enemyPosX || this->getPositionX() + this->getMovement() != enemyPosX) && (this->getPositionY() - this->getMovement() != enemyPosY || this->getPositionY() + this->getMovement() != enemyPosY)) {
+    if(this->getPositionX() > enemyPosX && this->getPositionX() - this->getMovement() >= 0) {
+        this->setPositionX(this->getPositionX() - this->getMovement());
+    }
+    else if(this->getPositionX() < enemyPosX && this->getPositionX() + this->getMovement() <= 24) {
+        this->setPositionX(this->getPositionX() + this->getMovement());
+    }
+
+    if(this->getPositionY() > enemyPosY && this->getPositionY() - this->getMovement() >= 0) {
+        this->setPositionY(this->getPositionY() - this->getMovement());
+    }
+    else if(this->getPositionY() < enemyPosY && this->getPositionY() + this->getMovement() <= 24) {
+        this->setPositionY(this->getPositionY() + this->getMovement());
+    }
+    }
+
 }
 
-void Cooper::shoot(int& left, int& right, int& up, int& down) { //returneaza folosind parametrii pozitia maxima in care poate trage in functie de directie
-	if(range - this->getPositionY() < 0) {
-		left = 0;
-	}
-	else {
-		left = range - this->getPositionY();
-	}
+Coordonata* Cooper::shoot(int& nr) { //returneaza un vector ce contine elemente reprezentand pozitiile pe unde poate trece glontul
+    int i;
+    nr = 0;
+    Coordonata* v = new Coordonata[(range + 1)*4 + 1];  //in vectorul de tip coordonata stochez toate coordonatele prin care trece glontul
 
-	if(range + this->getPositionY() > 24) {
-		right = 24;
-	}
-	 else {
-	 	right = range + this->getPositionY();
-	 }
+    //std::cout << this->getPositionY() << ' ' << range << '\n';
+    if(this->getPositionY() - range >= 0) {
+        for(i = this->getPositionY() - 1; i >= this->getPositionY() - range; i--) { //vad cat poate sa mearga glontul in stanga
+            v[nr].setY(i);
+            v[nr++].setX(this->getPositionX());
+    }
+    }
+    else {
+        for(i = this->getPositionY() - 1; i >= 0; i--) { //aici e in caz ca peretele e la o distanta mai mica decat range
+            v[nr].setY(i);
+            v[nr++].setX(this->getPositionX());
+    }
+    }
 
-	 if(range + this->getPositionX() > 24) {
-	 	down = 24;
-	 }
-	 else {
-	 	down = range + this->getPositionX();
-	 }	
+    if(this->getPositionY() + range <= 24) {
+        for(i = this->getPositionY() + 1; i <= this->getPositionY() + range; i++) {  // -||- in dreapta
+            v[nr].setY(i);
+            v[nr++].setX(this->getPositionX());
+    }
+    }
+    else {
+        for(i = this->getPositionY() + 1; i <= 24; i++) {
+            v[nr].setY(i);
+            v[nr++].setX(getPositionX());
+    }
+    }
 
-	 if(range - this->getPositionX() < 0) {
-	 	up = 0;
-	 }
-	 else {
-	 	up = range - this->getPositionX();
-	 }
+    if(this->getPositionX() - range >= 0) {
+        for(i = this->getPositionX() - 1; i >= this->getPositionX() - range; i--) {  // -||- in sus
+            v[nr].setY(this->getPositionY());
+            v[nr++].setX(i);
+    }
+    }
+    else {
+        for(i = this->getPositionX() - 1; i >= 0; i--) {
+            v[nr].setY(this->getPositionY());
+            v[nr++].setX(i);
+    }
+    }
 
+    if(this->getPositionX() + range <= 24) {
+        for(i = this->getPositionX() + 1; i <= this->getPositionX() + range; i++) { // -||- in jos
+            v[nr].setY(this->getPositionY());
+            v[nr++].setX(i);
+    }
+    }
+    else {
+        for(i = this->getPositionX() + 1; i <= 24; i++) {
+            v[nr].setY(this->getPositionY());
+            v[nr++].setX(i);
+    }
+    }
+
+    //std::cout << nr << ' ' << range << '\n';
+
+    return v;
 }

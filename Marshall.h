@@ -2,6 +2,8 @@
 #include "Player.h"
 #include <time.h>
 #include <stdlib.h>
+#include <iostream>
+#include "Coordonata.h"
 
 class Marshall : public Player {
 public:
@@ -11,7 +13,8 @@ public:
 	int getRange();
 	void die();
 	int getSymbol();
-	void Move();
+	void Move(int, int);
+	Coordonata* shoot(int&);
 
 private:
 	int movement;

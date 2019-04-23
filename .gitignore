@@ -5,3 +5,8 @@ Cooper.o
 Marshall.o
 TheShootout.o
 Simulation.o
+bin/
+obj/
+TheShootout12.cbp
+TheShootout12.depend
+TheShootout12.layout

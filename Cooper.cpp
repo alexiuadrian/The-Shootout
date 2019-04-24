@@ -5,7 +5,7 @@ Cooper::Cooper() {
 	movement = 2;
 	setPositionX(0);
 	setPositionY(0);
-	range = 5;
+	range = 3;
 	symbol = 1;
 }
 
@@ -32,9 +32,8 @@ int Cooper::getSymbol() {
 	return symbol;
 }
 
-void Cooper::Move(int enemyPosX, int enemyPosY) { //functie care misca agentul in directia playerului cel mai apropiat
-	/*
-	srand(time(NULL));
+void Cooper::Move(int enemyPosX, int enemyPosY, bool isInFightArea) { //daca agentul se afla in fight area atunci se misca random, altfel se misca in directia celui mai apropiat agent
+    if(isInFightArea) {
 	int pos = rand() % 9;
 
 	bool ok = false;
@@ -110,8 +109,8 @@ void Cooper::Move(int enemyPosX, int enemyPosY) { //functie care misca agentul i
 				break;
 		}
 	}
-	*/
-
+    }
+    else {   //agentul cauta cel mai apropiat inamic si merge spre el
     if((this->getPositionX() - this->getMovement() != enemyPosX || this->getPositionX() + this->getMovement() != enemyPosX) && (this->getPositionY() - this->getMovement() != enemyPosY || this->getPositionY() + this->getMovement() != enemyPosY)) {
     if(this->getPositionX() > enemyPosX && this->getPositionX() - this->getMovement() >= 0) {
         this->setPositionX(this->getPositionX() - this->getMovement());
@@ -127,7 +126,7 @@ void Cooper::Move(int enemyPosX, int enemyPosY) { //functie care misca agentul i
         this->setPositionY(this->getPositionY() + this->getMovement());
     }
     }
-
+    }
 }
 
 Coordonata* Cooper::shoot(int& nr) { //returneaza un vector ce contine elemente reprezentand pozitiile pe unde poate trece glontul
@@ -135,7 +134,6 @@ Coordonata* Cooper::shoot(int& nr) { //returneaza un vector ce contine elemente 
     nr = 0;
     Coordonata* v = new Coordonata[(range + 1)*4 + 1];  //in vectorul de tip coordonata stochez toate coordonatele prin care trece glontul
 
-    //std::cout << this->getPositionY() << ' ' << range << '\n';
     if(this->getPositionY() - range >= 0) {
         for(i = this->getPositionY() - 1; i >= this->getPositionY() - range; i--) { //vad cat poate sa mearga glontul in stanga
             v[nr].setY(i);
@@ -187,8 +185,6 @@ Coordonata* Cooper::shoot(int& nr) { //returneaza un vector ce contine elemente 
             v[nr++].setX(i);
     }
     }
-
-    //std::cout << nr << ' ' << range << '\n';
 
     return v;
 }

@@ -2,8 +2,8 @@
 
 Marshall::Marshall() {
 	movement = 1;
-	setPositionX(16);
-	setPositionY(8);
+	setPositionX(24);
+	setPositionY(24);
 	range = 5;
 	symbol = 2;
 }
@@ -31,9 +31,8 @@ int Marshall::getSymbol() {
 	return symbol;
 }
 
-void Marshall::Move(int enemyPosX, int enemyPosY) { //functie care misca agentul in directia playerului cel mai apropiat
-	/*
-	srand(time(NULL));
+void Marshall::Move(int enemyPosX, int enemyPosY, bool isInFightArea) { //functie care misca agentul in directia playerului cel mai apropiat
+    if(isInFightArea) {
 	int pos = rand() % 9;
 
 	bool ok = false;
@@ -109,8 +108,8 @@ void Marshall::Move(int enemyPosX, int enemyPosY) { //functie care misca agentul
 				break;
 		}
 	}
-	*/
-
+    }
+    else {
     if((this->getPositionX() - this->getMovement() != enemyPosX || this->getPositionX() + this->getMovement() != enemyPosX) && (this->getPositionY() - this->getMovement() != enemyPosY || this->getPositionY() + this->getMovement() != enemyPosY)) {
     if(this->getPositionX() > enemyPosX && this->getPositionX() - this->getMovement() >= 0) {
         this->setPositionX(this->getPositionX() - this->getMovement());
@@ -126,7 +125,7 @@ void Marshall::Move(int enemyPosX, int enemyPosY) { //functie care misca agentul
         this->setPositionY(this->getPositionY() + this->getMovement());
     }
     }
-
+    }
 }
 
 Coordonata* Marshall::shoot(int& nr) {

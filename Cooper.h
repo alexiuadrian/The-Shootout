@@ -13,7 +13,7 @@ public:
 	int getRange();
 	int getSymbol();
 	Coordonata* shoot(int&);
-	void Move(int, int);
+	void Move(int, int, bool);
 
 private:
 	int movement;

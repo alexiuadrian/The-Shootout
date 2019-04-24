@@ -26,7 +26,7 @@ void Player::setPositionY(int y) {
 }
 
 void Player::Move() {
-	
+
 }
 
 int Player::getRange() {
@@ -34,7 +34,7 @@ int Player::getRange() {
 }
 
 void Player::die() {
-	
+
 }
 
 int Player::getSymbol() {
@@ -45,6 +45,6 @@ int Player::getMovement() {
 	return 0;
 }
 
-void Player::shoot(int* posX, int* posY, int& nrOfPosX, int& nrOfPosY) {  //rng = range-ul armei, *posX, *posY sunt vectori in care vor fi salvate coordonatele traiectoriei gloantelor, nrOfPos nr de elemente din cei doi vectori
+void Player::shoot(int* posX, int* posY, int& nrOfPosX, int& nrOfPosY) {
 
 }

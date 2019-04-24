@@ -41,8 +41,8 @@ void Simulation::check() {
 
 void Simulation::NextRound() {
 
-	_C.Move(_M.getPositionX(), _M.getPositionY());
-	_M.Move(_C.getPositionX(), _C.getPositionY());
+	_C.Move(_M.getPositionX(), _M.getPositionY(), _MAP.fightZone(_C));
+	_M.Move(_C.getPositionX(), _C.getPositionY(), _MAP.fightZone(_M));
 	_MAP.update(_M, _M.getSymbol());
 	_MAP.update(_C, _C.getSymbol());
 	check();

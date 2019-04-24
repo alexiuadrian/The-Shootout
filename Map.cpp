@@ -46,7 +46,7 @@ void Map::update(Player& a, int sym) {
 	m[a.getPositionX()][a.getPositionY()] = sym;
 }
 
-int Map::check(Coordonata* v, int nrEl) {   //functie care returneaza primul agent in care agentul a poate sa traga
+int Map::check(Coordonata* v, int nrEl) {   //functie care returneaza primul agent in care agentul cu vectorul de coordonate v poate sa traga
     int i;
 
     /*
@@ -82,4 +82,54 @@ int Map::check(Coordonata* v, int nrEl) {   //functie care returneaza primul age
     }
 
     return 0;
+}
+/*
+bool Map::fightZone(Coordonata a, Coordonata b) {
+    if((a.getX() - b.getX() <= 7 && a.getX() >= b.getX()) || (b.getX() - a.getX() <= 7 && b.getX() >= a.getX()) || (a.getY() - b.getY() <= 7 && a.getY() >= b.getY()) || (b.getY() - a.getY() <= 7 && b.getY() >= a.getY())) {
+        return true;
+    }
+    return false;
+}
+*/
+
+bool Map::fightZone(Player& a) {
+    int i, j, maxLeft, maxRight, maxUp, maxDown;
+
+    if(a.getPositionX() - 7 >= 0) {
+        maxUp = a.getPositionX() - 7;
+    }
+    else {
+        maxUp = 0;
+    }
+
+    if(a.getPositionX() + 7 <= 24) {
+        maxDown = a.getPositionX() + 7;
+    }
+    else {
+        maxDown = 24;
+    }
+
+    if(a.getPositionY() - 7 >= 0) {
+        maxLeft = a.getPositionY() - 7;
+    }
+    else {
+        maxLeft = 0;
+    }
+
+    if(a.getPositionY() + 7 <= 24) {
+        maxRight = a.getPositionY() + 7;
+    }
+    else {
+        maxRight = 24;
+    }
+
+    for(i = maxUp; i <= maxDown; i++) {
+        for(j = maxLeft; j <= maxRight; j++) {
+            if(m[i][j] != 0 && m[i][j] != a.getSymbol()) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }

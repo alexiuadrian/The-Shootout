@@ -7,23 +7,7 @@
 using namespace std;
 
 int main() {
-
-/*
-	int option;
-	Map M;
-	M.show();
-
-	cout << "1 = NEXT ROUND! ";
-	cin >> option;
-
-	while (option == 1) {
-		M.Update();
-		M.show();
-		cout << "1 = NEXT ROUND! ";
-		cin >> option;
-	}
-*/
-
+    srand(time(NULL));
 	int option = 1;
 	Simulation S;
 	S.show();

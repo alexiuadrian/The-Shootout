@@ -11,7 +11,7 @@ public:
 	Simulation();
 	~Simulation();
 	void show();
-	void check();
+	void check(); //functia verifica daca moare un agent
 	void NextRound();
 
 private:

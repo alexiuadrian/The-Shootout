@@ -5,7 +5,7 @@ Cooper::Cooper() {
 	movement = 2;
 	setPositionX(0);
 	setPositionY(0);
-	range = 3;
+	range = 4;
 	symbol = 1;
 }
 
@@ -132,7 +132,7 @@ void Cooper::Move(int enemyPosX, int enemyPosY, bool isInFightArea) { //daca age
 Coordonata* Cooper::shoot(int& nr) { //returneaza un vector ce contine elemente reprezentand pozitiile pe unde poate trece glontul
     int i;
     nr = 0;
-    Coordonata* v = new Coordonata[(range + 1)*4 + 1];  //in vectorul de tip coordonata stochez toate coordonatele prin care trece glontul
+    Coordonata* v = new Coordonata[(range + 1) * 4 + 1];  //in vectorul de tip coordonata stochez toate coordonatele prin care trece glontul
 
     if(this->getPositionY() - range >= 0) {
         for(i = this->getPositionY() - 1; i >= this->getPositionY() - range; i--) { //vad cat poate sa mearga glontul in stanga

@@ -16,7 +16,7 @@ void Simulation::show() {
 
 void Simulation::check() {
     Coordonata* C = new Coordonata[_C.getRange()*4];
-    Coordonata* M = new Coordonata[8];
+    Coordonata* M = new Coordonata[_M.getRange()*8];
     int nrC = 0, nrM = 0;
     C = _C.shoot(nrC);
     M = _M.shoot(nrM);
@@ -36,7 +36,9 @@ void Simulation::check() {
     }
 
     delete[] C;
+    delete[] M;
     nrC = 0;
+    nrM = 0;
 }
 
 void Simulation::NextRound() {

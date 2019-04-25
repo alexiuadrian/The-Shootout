@@ -4,7 +4,7 @@ Marshall::Marshall() {
 	movement = 1;
 	setPositionX(24);
 	setPositionY(24);
-	range = 5;
+	range = 2;
 	symbol = 2;
 }
 
@@ -129,6 +129,7 @@ void Marshall::Move(int enemyPosX, int enemyPosY, bool isInFightArea) { //functi
 }
 
 Coordonata* Marshall::shoot(int& nr) {
+/*  Codul comentat merge dar agentul trage doar 1 unitate in jurul lui
     Coordonata* v = new Coordonata[8*range];
     nr = 0;
 
@@ -167,6 +168,48 @@ Coordonata* Marshall::shoot(int& nr) {
             v[nr++].setY(this->getPositionY() + 1);
         }
     }
+    return v;
+*/
+
+    Coordonata* v = new Coordonata[(range + 1) * 8 + 1];
+    int i, j, maxLeft, maxRight, maxUp, maxDown;
+
+    if(this->getPositionX() - range >= 0) {
+        maxUp = this->getPositionX() - range;
+    }
+    else {
+        maxUp = 0;
+    }
+
+    if(this->getPositionX() + range <= 24) {
+        maxDown = this->getPositionX() + range;
+    }
+    else {
+        maxDown = 24;
+    }
+
+    if(this->getPositionY() - range >= 0) {
+        maxLeft = this->getPositionY() - range;
+    }
+    else {
+        maxLeft = 0;
+    }
+
+    if(this->getPositionY() + range <= 24) {
+        maxRight = this->getPositionY() + range;
+    }
+    else {
+        maxRight = 24;
+    }
+
+    nr = 0;
+    for(i = maxUp; i <= maxDown; i++) {  //stochez in v de tip Coordonata toate locurile prin care poate trece glontul
+        for(j = maxLeft; j <= maxRight; j++) {
+            v[nr].setX(i);
+            v[nr++].setY(j);
+        }
+    }
+
     return v;
 }
 

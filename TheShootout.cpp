@@ -1,8 +1,4 @@
 #include <iostream>
-#include "Map.h"
-#include "Player.h"
-#include "Cooper.h"
-#include "Marshall.h"
 #include "Simulation.h"
 using namespace std;
 

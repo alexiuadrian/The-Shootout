@@ -133,3 +133,51 @@ bool Map::fightZone(Player& a) {
 
     return false;
 }
+
+int Map::closestEnemy(Player& a) {
+    int i, j, sym1 = -1, sym2 = -1, nr1 = 0, nr2 = 0;   //in nr1 numar distanta pana la agentul cautat dupa a si in nr2 pe cel cautat inainte
+    bool ok = true;                           //in sym1 salvez simbolul primului agent gasit dupa si in sym2 cel gasit inainte
+
+    for(i = a.getPositionX(); i <= 24 && ok; i++) {     //caut primul agent dupa agentul a si ii salvez simbolul
+        for(j = a.getPositionY(); j <= 24 && ok; j++) {
+                nr1++;
+            if(m[i][j] != 0 && m[i][j] != a.getSymbol()) {
+                sym1 = m[i][j];
+                ok = false;
+            }
+        }
+    }
+
+    ok = true;
+    for(i = a.getPositionX(); i >= 0 && ok; i--) {         //caut primul agent inainte de agentul a si ii salvez simbolul
+        for(j = a.getPositionY(); j >= 0 && ok; j--) {
+            nr2++;
+            if(m[i][j] != 0 && m[i][j] != a.getSymbol()) {
+                sym2 = m[i][j];
+                ok = false;
+            }
+        }
+    }
+
+    if(nr1 < nr2) {         //compar distanta dintre cei doi agenti gasiti si agentul a
+        if(sym1 != -1) {
+            return sym1;
+        }
+        else {
+            if(sym2 != -1) {
+                return sym2;
+            }
+        }
+    }
+    else {
+        if(sym2 != -1) {
+            return sym2;
+        }
+        else {
+            if(sym1 != -1) {
+                return sym1;
+            }
+        }
+    }
+
+}

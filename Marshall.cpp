@@ -6,6 +6,7 @@ Marshall::Marshall() {
 	setPositionY(24);
 	range = 2;
 	symbol = 2;
+	armor = true;
 }
 
 Marshall::~Marshall() {
@@ -21,10 +22,21 @@ int Marshall::getRange() {
 }
 
 void Marshall::die() {
-	movement = 0;
+    if(armor) {
+        armor = false;
+        movement++;
+        int randomX = rand() % 25;
+        int randomY = rand() % 25;
+        this->setPositionX(randomX);
+        this->setPositionY(randomY);
+    }
+    else {
+    movement = 0;
 	setPositionX(25);
 	range = 0;
+	symbol = 0;
 	std::cout << "Marshall is dead!\n";
+    }
 }
 
 int Marshall::getSymbol() {
@@ -213,3 +225,6 @@ Coordonata* Marshall::shoot(int& nr) {
     return v;
 }
 
+bool Marshall::getArmor() {
+    return armor;
+}

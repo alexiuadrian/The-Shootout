@@ -1,50 +1,49 @@
-#include "Cooper.h"
-#include <iostream>
+#include "Chris.h"
 
-Cooper::Cooper() {
-	movement = 2;
-	setPositionX(0);
+Chris::Chris() {
+	movement = 1;
+	setPositionX(24);
 	setPositionY(0);
 	range = 4;
-	symbol = 1;
+	symbol = 3;
 	armor = true;
 }
 
-Cooper::~Cooper() {
+Chris::~Chris() {
 
 }
 
-int Cooper::getMovement() {
+int Chris::getMovement() {
 	return movement;
 }
 
-int Cooper::getRange() {
+int Chris::getRange() {
 	return range;
 }
 
-void Cooper::die() {
-	if(armor) { //daca ii este distrusa armura il va arunca intr-o directie random
+void Chris::die() {
+    if(armor) {
         armor = false;
         movement++;
         int randomX = rand() % 25;
         int randomY = rand() % 25;
         this->setPositionX(randomX);
         this->setPositionY(randomY);
-	}
-	else {
-    setPositionX(25);
-	movement = 0;
+    }
+    else {
+    movement = 0;
+	setPositionX(25);
 	range = 0;
 	symbol = 0;
-	std::cout << "Cooper is dead!\n";
-	}
+	std::cout << "Chris is dead!\n";
+    }
 }
 
-int Cooper::getSymbol() {
+int Chris::getSymbol() {
 	return symbol;
 }
 
-void Cooper::Move(int enemyPosX, int enemyPosY, bool isInFightArea) { //daca agentul se afla in fight area atunci se misca random, altfel se misca in directia celui mai apropiat agent
+void Chris::Move(int enemyPosX, int enemyPosY, bool isInFightArea) { //functie care misca agentul in directia playerului cel mai apropiat
     if(isInFightArea) {
 	int pos = rand() % 9;
 
@@ -122,7 +121,7 @@ void Cooper::Move(int enemyPosX, int enemyPosY, bool isInFightArea) { //daca age
 		}
 	}
     }
-    else {   //agentul cauta cel mai apropiat inamic si merge spre el
+    else {
     if((this->getPositionX() - this->getMovement() != enemyPosX || this->getPositionX() + this->getMovement() != enemyPosX) && (this->getPositionY() - this->getMovement() != enemyPosY || this->getPositionY() + this->getMovement() != enemyPosY)) {
     if(this->getPositionX() > enemyPosX && this->getPositionX() - this->getMovement() >= 0) {
         this->setPositionX(this->getPositionX() - this->getMovement());
@@ -141,66 +140,73 @@ void Cooper::Move(int enemyPosX, int enemyPosY, bool isInFightArea) { //daca age
     }
 }
 
-Coordonata* Cooper::shoot(int& nr) { //returneaza un vector ce contine elemente reprezentand pozitiile pe unde poate trece glontul
-    int i;
-    nr = 0;
-    Coordonata* v = new Coordonata[(range + 1) * 4 + 1];  //in vectorul de tip coordonata stochez toate coordonatele prin care trece glontul
-
-    if(this->getPositionY() - range >= 0) {
-        for(i = this->getPositionY() - 1; i >= this->getPositionY() - range; i--) { //vad cat poate sa mearga glontul in stanga
-            v[nr].setY(i);
-            v[nr++].setX(this->getPositionX());
-    }
-    }
-    else {
-        for(i = this->getPositionY() - 1; i >= 0; i--) { //aici e in caz ca peretele e la o distanta mai mica decat range
-            v[nr].setY(i);
-            v[nr++].setX(this->getPositionX());
-    }
-    }
-
-    if(this->getPositionY() + range <= 24) {
-        for(i = this->getPositionY() + 1; i <= this->getPositionY() + range; i++) {  // -||- in dreapta
-            v[nr].setY(i);
-            v[nr++].setX(this->getPositionX());
-    }
-    }
-    else {
-        for(i = this->getPositionY() + 1; i <= 24; i++) {
-            v[nr].setY(i);
-            v[nr++].setX(getPositionX());
-    }
-    }
+Coordonata* Chris::shoot(int& nr) {
+    Coordonata* v = new Coordonata[(range + 1) * 8 + 1];
+    int i, j, maxLeft, maxRight, maxUp, maxDown;
 
     if(this->getPositionX() - range >= 0) {
-        for(i = this->getPositionX() - 1; i >= this->getPositionX() - range; i--) {  // -||- in sus
-            v[nr].setY(this->getPositionY());
-            v[nr++].setX(i);
-    }
+        maxUp = this->getPositionX() - range;
     }
     else {
-        for(i = this->getPositionX() - 1; i >= 0; i--) {
-            v[nr].setY(this->getPositionY());
-            v[nr++].setX(i);
-    }
+        maxUp = 0;
     }
 
     if(this->getPositionX() + range <= 24) {
-        for(i = this->getPositionX() + 1; i <= this->getPositionX() + range; i++) { // -||- in jos
-            v[nr].setY(this->getPositionY());
-            v[nr++].setX(i);
-    }
+        maxDown = this->getPositionX() + range;
     }
     else {
-        for(i = this->getPositionX() + 1; i <= 24; i++) {
-            v[nr].setY(this->getPositionY());
-            v[nr++].setX(i);
+        maxDown = 24;
     }
+
+    if(this->getPositionY() - range >= 0) {
+        maxLeft = this->getPositionY() - range;
+    }
+    else {
+        maxLeft = 0;
+    }
+
+    if(this->getPositionY() + range <= 24) {
+        maxRight = this->getPositionY() + range;
+    }
+    else {
+        maxRight = 24;
+    }
+
+    nr = 0;
+    //impart in trei bucati stocarea traiectoriei
+    //Partea de sus:
+    for(i = maxUp; i <= this->getPositionX() - range / 2; i++) {  //stochez in v de tip Coordonata toate locurile prin care poate trece glontul
+        for(j = maxLeft; j <= maxRight; j++) {
+                v[nr].setX(i);
+                v[nr++].setY(j);
+        }
+    }
+
+    //Partea de la mijloc:
+    for(i = this->getPositionX() - range / 2 + 1; i <= this->getPositionX() + range / 2; i++) {
+        for(j = maxLeft; j <= this->getPositionY() - range / 2; j++) {
+            v[nr].setX(i);
+            v[nr++].setY(j);
+        }
+
+        for(j = this->getPositionY() + range / 2 + 1; j <= maxRight; j++) {
+            v[nr].setX(i);
+            v[nr++].setY(j);
+        }
+    }
+
+    //Partea de sus:
+    for(i = this->getPositionX() + range / 2 + 1; i <= maxDown; i++) {
+        for(j = maxLeft; j <= maxRight; j++) {
+                v[nr].setX(i);
+                v[nr++].setY(j);
+        }
     }
 
     return v;
 }
 
-bool Cooper::getArmor() {
- return armor;
+bool Chris::getArmor() {
+    return armor;
 }
+

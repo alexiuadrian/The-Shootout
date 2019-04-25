@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Cooper.h"
 #include "Marshall.h"
+#include "Chris.h"
 #include "Coordonata.h"
 
 class Simulation {
@@ -18,5 +19,5 @@ private:
 	Map _MAP;
 	Cooper _C;
 	Marshall _M;
-
+    Chris _CH;
 };

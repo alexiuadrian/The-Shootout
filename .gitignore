@@ -5,6 +5,7 @@ Cooper.o
 Marshall.o
 TheShootout.o
 Simulation.o
+Chris.o
 bin/
 obj/
 TheShootout12.cbp

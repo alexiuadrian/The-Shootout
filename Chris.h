@@ -5,10 +5,10 @@
 #include <iostream>
 #include "Coordonata.h"
 
-class Marshall : public Player {
+class Chris : public Player {
 public:
-	Marshall();
-	~Marshall();
+	Chris();
+	~Chris();
 	int getMovement();
 	int getRange();
 	void die();

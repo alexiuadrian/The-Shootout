@@ -23,6 +23,15 @@ Map::~Map() {
 	delete[] m;
 }
 
+Map::Map(const Map& a) {
+    int i, j;
+    for(i = 0; i <= 24; i++) {
+        for(j = 0; j <= 24; j++) {
+            this->m[i][j] = a.m[i][j];
+        }
+    }
+}
+
 void Map::show() {
 	for(int i=0; i<25; i++) {
 		for(int j=0; j<25; j++) {
@@ -46,37 +55,11 @@ void Map::update(Player& a, int sym) {
 	m[a.getPositionX()][a.getPositionY()] = sym;
 }
 
-int Map::check(Coordonata* v, int nrEl) {   //functie care returneaza primul agent in care agentul cu vectorul de coordonate v poate sa traga
+int Map::check(Coordonata* v, int nrEl, Player& a) {   //functie care returneaza primul agent in care agentul cu vectorul de coordonate v poate sa traga
     int i;
 
-    /*
-    for(i = a.getPositionX() + 1; i <= posShoot[3]; i++) {
-        if(m[i][a.getPositionY()] != 0) {
-            return m[i][a.getPositionY()];
-        }
-    }
-
-    for(i = a.getPositionX() - 1; i >= posShoot[2]; i--) {
-        if(m[i][a.getPositionY()] != 0) {
-            return m[i][a.getPositionY()];
-        }
-    }
-
-    for(i = a.getPositionY() + 1; i <= posShoot[0]; i++) {
-        if(m[a.getPositionX()][i] != 0) {
-            return m[a.getPositionX()][i];
-        }
-    }
-
-    for(i = a.getPositionY() - 1; i >= posShoot[1]; i--) {
-        if(m[a.getPositionX()][i] != 0) {
-            return m[a.getPositionX()][i];
-        }
-    }
-*/
-
     for(i = 0; i < nrEl; i++) {
-        if(m[v[i].getX()][v[i].getY()] != 0) {
+        if(m[v[i].getX()][v[i].getY()] != 0 && m[v[i].getX()][v[i].getY()] != a.getSymbol()) {
             return m[v[i].getX()][v[i].getY()];
         }
     }
@@ -179,5 +162,29 @@ int Map::closestEnemy(Player& a) {
             }
         }
     }
+    return 0;
+}
 
+bool Map::isGameOver() {
+    int i, j, nr = 0, sym = 0;
+    for(i = 0; i <= 24; i++) {
+        for(j = 0; j <= 24; j++) {
+            if(m[i][j] != 0) {
+                nr++;
+                sym = m[i][j];
+            }
+        }
+    }
+
+    if(nr == 1) {
+        cout << "GAME OVER!\n\nPLAYER " << sym << " WON!\n";
+        return true;
+    }
+    else {
+        if(nr == 0) {
+            cout << "GAME OVER!\n\nNOBODY WON!\n";
+            return true;
+        }
+    }
+    return false;
 }

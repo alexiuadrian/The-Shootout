@@ -10,6 +10,11 @@ Coordonata::~Coordonata() {
     Y = 0;
 }
 
+Coordonata::Coordonata(const Coordonata& a) {
+    this->X = a.X;
+    this->Y = a.Y;
+}
+
 int Coordonata::getX() {
     return X;
 }

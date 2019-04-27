@@ -8,6 +8,7 @@ class Cooper : public Player {
 public:
 	Cooper();
 	~Cooper();
+	Cooper(const Cooper&);
 	int getMovement();
 	void die();
 	int getRange();

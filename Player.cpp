@@ -9,6 +9,12 @@ Player::~Player() {
 
 }
 
+Player::Player(const Player& a) {
+    this->positionX = a.positionX;
+    this->positionY = a.positionY;
+    this->symbol = a.symbol;
+}
+
 int Player::getPositionX() {
 	return positionX;
 }

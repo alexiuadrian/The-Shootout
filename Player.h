@@ -4,6 +4,7 @@ class Player {
 public:
 	Player();
 	~Player();
+    Player(const Player&);
 	int getPositionX();
 	int getPositionY();
 	void setPositionX(int);

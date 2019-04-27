@@ -9,6 +9,7 @@ class Chris : public Player {
 public:
 	Chris();
 	~Chris();
+	Chris(const Chris&);
 	int getMovement();
 	int getRange();
 	void die();

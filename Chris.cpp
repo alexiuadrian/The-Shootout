@@ -2,15 +2,22 @@
 
 Chris::Chris() {
 	movement = 1;
-	setPositionX(24);
-	setPositionY(0);
-	range = 4;
+	setPositionX(rand() % 25);
+	setPositionY(rand() % 25);
+	range = 3;
 	symbol = 3;
 	armor = true;
 }
 
 Chris::~Chris() {
 
+}
+
+Chris::Chris(const Chris& a) {
+    this->movement = a.movement;
+    this->range = a.range;
+    this->symbol= a.symbol;
+    this->armor = a.armor;
 }
 
 int Chris::getMovement() {
@@ -29,12 +36,12 @@ void Chris::die() {
         int randomY = rand() % 25;
         this->setPositionX(randomX);
         this->setPositionY(randomY);
+        std::cout << "Chris is hit!\n";
     }
     else {
     movement = 0;
 	setPositionX(25);
 	range = 0;
-	symbol = 0;
 	std::cout << "Chris is dead!\n";
     }
 }
@@ -141,7 +148,7 @@ void Chris::Move(int enemyPosX, int enemyPosY, bool isInFightArea) { //functie c
 }
 
 Coordonata* Chris::shoot(int& nr) {
-    Coordonata* v = new Coordonata[(range + 1) * 8 + 1];
+    Coordonata* v = new Coordonata[(range + 1) * (range + 1) * 4];
     int i, j, maxLeft, maxRight, maxUp, maxDown;
 
     if(this->getPositionX() - range >= 0) {
@@ -175,28 +182,29 @@ Coordonata* Chris::shoot(int& nr) {
     nr = 0;
     //impart in trei bucati stocarea traiectoriei
     //Partea de sus:
-    for(i = maxUp; i <= this->getPositionX() - range / 2; i++) {  //stochez in v de tip Coordonata toate locurile prin care poate trece glontul
+    for(i = maxUp; i <= maxUp + range / 2 + 1; i++) {  //stochez in v de tip Coordonata toate locurile prin care poate trece glontul
         for(j = maxLeft; j <= maxRight; j++) {
                 v[nr].setX(i);
                 v[nr++].setY(j);
         }
     }
 
+
     //Partea de la mijloc:
-    for(i = this->getPositionX() - range / 2 + 1; i <= this->getPositionX() + range / 2; i++) {
-        for(j = maxLeft; j <= this->getPositionY() - range / 2; j++) {
+    for(i = this->getPositionX() - range / 2; i <= this->getPositionX() + range / 2; i++) {
+        for(j = maxLeft; j <= maxLeft + range / 2; j++) {
             v[nr].setX(i);
             v[nr++].setY(j);
         }
 
-        for(j = this->getPositionY() + range / 2 + 1; j <= maxRight; j++) {
+        for(j = maxRight - (range / 2); j <= maxRight; j++) {
             v[nr].setX(i);
             v[nr++].setY(j);
         }
     }
 
-    //Partea de sus:
-    for(i = this->getPositionX() + range / 2 + 1; i <= maxDown; i++) {
+    //Partea de jos:
+    for(i = maxDown - range / 2 - 1; i <= maxDown; i++) {
         for(j = maxLeft; j <= maxRight; j++) {
                 v[nr].setX(i);
                 v[nr++].setY(j);

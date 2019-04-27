@@ -2,8 +2,8 @@
 
 Marshall::Marshall() {
 	movement = 1;
-	setPositionX(24);
-	setPositionY(24);
+	setPositionX(rand() % 25);
+	setPositionY(rand() % 25);
 	range = 2;
 	symbol = 2;
 	armor = true;
@@ -11,6 +11,13 @@ Marshall::Marshall() {
 
 Marshall::~Marshall() {
 
+}
+
+Marshall::Marshall(const Marshall& a) {
+    this->movement = a.movement;
+    this->range = a.range;
+    this->symbol= a.symbol;
+    this->armor = a.armor;
 }
 
 int Marshall::getMovement() {
@@ -29,12 +36,12 @@ void Marshall::die() {
         int randomY = rand() % 25;
         this->setPositionX(randomX);
         this->setPositionY(randomY);
+        std::cout << "Marshall is hit!\n";
     }
     else {
     movement = 0;
 	setPositionX(25);
 	range = 0;
-	symbol = 0;
 	std::cout << "Marshall is dead!\n";
     }
 }
@@ -217,8 +224,10 @@ Coordonata* Marshall::shoot(int& nr) {
     nr = 0;
     for(i = maxUp; i <= maxDown; i++) {  //stochez in v de tip Coordonata toate locurile prin care poate trece glontul
         for(j = maxLeft; j <= maxRight; j++) {
-            v[nr].setX(i);
-            v[nr++].setY(j);
+            if(i != this->getPositionX() || j != this->getPositionY()) {
+                v[nr].setX(i);
+                v[nr++].setY(j);
+            }
         }
     }
 

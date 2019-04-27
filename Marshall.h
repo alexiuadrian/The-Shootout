@@ -9,6 +9,7 @@ class Marshall : public Player {
 public:
 	Marshall();
 	~Marshall();
+	Marshall(const Marshall&);
 	int getMovement();
 	int getRange();
 	void die();

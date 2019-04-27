@@ -9,11 +9,12 @@
 class Simulation {
 
 public:
-	Simulation();
+	Simulation(int);
 	~Simulation();
+	Simulation(const Simulation&);
 	void show();
-	void check(); //functia verifica daca moare un agent
-	void NextRound();
+	bool check(int); //functia verifica daca moare un agent
+	void NextRound(int);
 
 private:
 	Map _MAP;

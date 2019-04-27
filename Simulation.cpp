@@ -1,69 +1,99 @@
 #include "Simulation.h"
 #include <iostream>
 
-Simulation::Simulation() {
-	_MAP.update(_C, _C.getSymbol());
-	_MAP.update(_M, _M.getSymbol());
-	//_MAP.update(_CH, _CH.getSymbol());
+Simulation::Simulation(int players) {
+
+	switch(players) {
+        case 1: {
+            _MAP.update(_C, _C.getSymbol());
+            _MAP.update(_M, _M.getSymbol());
+            break;
+        }
+        case 2: {
+            _MAP.update(_C, _C.getSymbol());
+            _MAP.update(_CH, _CH.getSymbol());
+            break;
+        }
+        case 3: {
+            _MAP.update(_M, _M.getSymbol());
+            _MAP.update(_CH, _CH.getSymbol());
+            break;
+        }
+        break;
+	}
+
 }
 
 Simulation::~Simulation() {
 
 }
 
+Simulation::Simulation(const Simulation& a) {
+    this->_MAP = a._MAP;
+    this->_C = a._C;
+    this->_M = a._M;
+    this->_CH = a._CH;
+}
+
 void Simulation::show() {
 	_MAP.show();
 }
 
-void Simulation::check() {
+bool Simulation::check(int players) {
     Coordonata* C = new Coordonata[_C.getRange()*4];
     Coordonata* M = new Coordonata[_M.getRange()*8];
-    Coordonata* CH = new Coordonata[(_CH.getRange()+1)*8 + 1];
+    Coordonata* CH = new Coordonata[(_CH.getRange() + 1) * (_CH.getRange() + 1) * 4];
+    bool ok = false;
     int nrC = 0, nrM = 0, nrCH = 0;
-    C = _C.shoot(nrC);
-    M = _M.shoot(nrM);
-    CH = _CH.shoot(nrCH);
 
-    switch(_MAP.check(C, nrC)) {
-        case 2: {
-            _M.die();
-            break;
-        }
-        //break;
-        case 3: {
-            _CH.die();
-        }
-        break;
-    }
+    switch(players) {
+        case 1: {
+            C = _C.shoot(nrC);
+            M = _M.shoot(nrM);
 
-    switch(_MAP.check(M, nrM)) {
-        case 1: {
-            _C.die();
-            break;
-        }
-        //break;
-        case 3: {
-            _CH.die();
-        }
-        break;
-    }
-    /*
-    switch(_MAP.check(CH, nrCH)) {
-        case 1: {
-            _C.die();
+            if(_MAP.check(C, nrC, _C) == 2) {
+                _M.die();
+                ok = true;
+            }
+
+            if(_MAP.check(M, nrM, _M) == 1) {
+                _C.die();
+                ok = true;
+            }
             break;
         }
         case 2: {
-            _M.die();
+            C = _C.shoot(nrC);
+            CH = _CH.shoot(nrCH);
+
+            if(_MAP.check(C, nrC, _C) == 3) {
+                _CH.die();
+                ok = true;
+            }
+
+            if(_MAP.check(CH, nrCH, _CH) == 1) {
+                _C.die();
+                ok = true;
+            }
+
+            break;
         }
+        case 3: {
+            M = _M.shoot(nrM);
+            CH = _CH.shoot(nrCH);
+
+            if(_MAP.check(M, nrM, _M) == 3) {
+                _CH.die();
+                ok = true;
+            }
+
+            if(_MAP.check(CH, nrCH, _CH) == 2) {
+                _M.die();
+                ok = true;
+                }
+            }
         break;
     }
-*/
-    /*
-    for(int i = 0; i <= nrCH; i++) {
-        std::cout << CH[i].getX() << " " << CH[i].getY() << '\n';
-    }
-    */
 
     delete[] C;
     delete[] M;
@@ -71,46 +101,61 @@ void Simulation::check() {
     nrC = 0;
     nrM = 0;
     nrCH = 0;
+    return ok;
 }
 
-void Simulation::NextRound() {
-    //mut fiecare agent in directia celui mai apropiat agent
-    switch(_MAP.closestEnemy(_C)) {
-        case 2: {
-            _C.Move(_M.getPositionX(), _M.getPositionY(), _MAP.fightZone(_C));
-            break;
+void Simulation::NextRound(int players) {
+
+    switch(players) {
+        case 1: {
+        _C.Move(_M.getPositionX(), _M.getPositionY(), _MAP.fightZone(_C));  //player1 se misca spre player2 si invers
+        _M.Move(_C.getPositionX(), _C.getPositionY(), _MAP.fightZone(_M));
+        _MAP.update(_C, _C.getSymbol());    //se updateaza pozitiile celor 2 playeri in harta
+        _MAP.update(_M, _M.getSymbol());
+        _MAP.show();    //se afiseaza harta
+        if(check(players)) {    //daca un player e lovit sau moare, se mai afiseaza odata harta cu mesajul corespunzator deasupra
+            _MAP.update(_C, _C.getSymbol());
+            _MAP.update(_M, _M.getSymbol());
+            _MAP.show();
         }
-        case 3: {
-            _C.Move(_CH.getPositionX(), _CH.getPositionY(), _MAP.fightZone(_C));
+        if(_MAP.isGameOver()) {
+            return;
         }
         break;
+        }
+        case 2: {
+        _C.Move(_CH.getPositionX(), _CH.getPositionY(), _MAP.fightZone(_C));
+        _CH.Move(_C.getPositionX(), _C.getPositionY(), _MAP.fightZone(_CH));
+        _MAP.update(_C, _C.getSymbol());
+        _MAP.update(_CH, _CH.getSymbol());
+        _MAP.show();
+        if(check(players)) {
+            _MAP.update(_C, _C.getSymbol());
+            _MAP.update(_CH, _CH.getSymbol());
+            _MAP.show();
+        }
+        if(_MAP.isGameOver()) {
+            return;
+        }
+        break;
+        }
+        case 3: {
+        _M.Move(_CH.getPositionX(), _CH.getPositionY(), _MAP.fightZone(_M));
+        _CH.Move(_M.getPositionX(), _M.getPositionY(), _MAP.fightZone(_CH));
+        _MAP.update(_M, _M.getSymbol());
+        _MAP.update(_CH, _CH.getSymbol());
+        _MAP.show();
+        if(check(players)) {
+            _MAP.update(_CH, _CH.getSymbol());
+            _MAP.update(_M, _M.getSymbol());
+            _MAP.show();
+        }
+        if(_MAP.isGameOver()) {
+            return;
+        }
+        break;
+        }
     }
 
-    switch(_MAP.closestEnemy(_M)) {
-        case 1: {
-            _M.Move(_C.getPositionX(), _C.getPositionY(), _MAP.fightZone(_M));
-            break;
-        }
-        case 3: {
-            _M.Move(_CH.getPositionX(), _CH.getPositionY(), _MAP.fightZone(_M));
-        }
-        break;
-    }
-/*
-    switch(_MAP.closestEnemy(_CH)) {
-        case 1: {
-            _CH.Move(_C.getPositionX(), _C.getPositionY(), _MAP.fightZone(_CH));
-            break;
-        }
-        case 2: {
-            _CH.Move(_M.getPositionX(), _M.getPositionY(), _MAP.fightZone(_CH));
-        }
-        break;
-    }
-*/
-    _MAP.update(_C, _C.getSymbol());
-	_MAP.update(_M, _M.getSymbol());
-	//_MAP.update(_CH, _CH.getSymbol());
-	check();
-	_MAP.show();
+    //mut fiecare agent in directia celui mai apropiat agent
 }

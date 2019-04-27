@@ -3,8 +3,8 @@
 
 Cooper::Cooper() {
 	movement = 2;
-	setPositionX(0);
-	setPositionY(0);
+	setPositionX(rand() % 25);
+	setPositionY(rand() % 25);
 	range = 4;
 	symbol = 1;
 	armor = true;
@@ -12,6 +12,13 @@ Cooper::Cooper() {
 
 Cooper::~Cooper() {
 
+}
+
+Cooper::Cooper(const Cooper& a) {
+    this->movement = a.movement;
+    this->range = a.range;
+    this->symbol= a.symbol;
+    this->armor = a.armor;
 }
 
 int Cooper::getMovement() {
@@ -30,12 +37,12 @@ void Cooper::die() {
         int randomY = rand() % 25;
         this->setPositionX(randomX);
         this->setPositionY(randomY);
+        std::cout << "Cooper is hit!\n";
 	}
 	else {
-    setPositionX(25);
+    this->setPositionX(25);
 	movement = 0;
 	range = 0;
-	symbol = 0;
 	std::cout << "Cooper is dead!\n";
 	}
 }
@@ -145,7 +152,7 @@ Coordonata* Cooper::shoot(int& nr) { //returneaza un vector ce contine elemente 
     int i;
     nr = 0;
     Coordonata* v = new Coordonata[(range + 1) * 4 + 1];  //in vectorul de tip coordonata stochez toate coordonatele prin care trece glontul
-
+/*
     if(this->getPositionY() - range >= 0) {
         for(i = this->getPositionY() - 1; i >= this->getPositionY() - range; i--) { //vad cat poate sa mearga glontul in stanga
             v[nr].setY(i);
@@ -196,6 +203,66 @@ Coordonata* Cooper::shoot(int& nr) { //returneaza un vector ce contine elemente 
             v[nr].setY(this->getPositionY());
             v[nr++].setX(i);
     }
+    }
+*/
+    nr = 0;
+    int maxLeft, maxRight, maxUp, maxDown;
+
+    if(this->getPositionX() - range >= 0) {
+        maxUp = this->getPositionX() - range;
+    }
+    else {
+        maxUp = 0;
+    }
+
+    if(this->getPositionX() + range <= 24) {
+        maxDown = this->getPositionX() + range;
+    }
+    else {
+        maxDown = 24;
+    }
+
+    if(this->getPositionY() - range >= 0) {
+        maxLeft = this->getPositionY() - range;
+    }
+    else {
+        maxLeft = 0;
+    }
+
+    if(this->getPositionY() + range <= 24) {
+        maxRight = this->getPositionY() + range;
+    }
+    else {
+        maxRight = 24;
+    }
+
+    for(i = this->getPositionX(); i >= maxUp; i--) {
+        if(this->getPositionX() != i) {
+            v[nr].setX(i);
+            v[nr++].setY(this->getPositionY());
+        }
+    }
+
+    for(i = this->getPositionX(); i <= maxDown; i++) {
+        if(this->getPositionX() != i) {
+            v[nr].setX(i);
+            v[nr++].setY(this->getPositionY());
+        }
+    }
+
+    for(i = this->getPositionY(); i >= maxLeft; i--) {
+        if(this->getPositionY() != i) {
+
+            v[nr].setX(this->getPositionX());
+            v[nr++].setY(i);
+        }
+    }
+
+    for(i = this->getPositionY(); i <= maxRight; i++) {
+        if(this->getPositionY() != i) {
+            v[nr].setX(this->getPositionX());
+            v[nr++].setY(i);
+        }
     }
 
     return v;

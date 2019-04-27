@@ -7,16 +7,28 @@ Simulation::Simulation(int players) {
         case 1: {
             _MAP.update(_C, _C.getSymbol());
             _MAP.update(_M, _M.getSymbol());
+            while(_C.getPositionX() == _M.getPositionX() && _C.getPositionY() == _M.getPositionY()) {
+                _MAP.update(_C, _C.getSymbol());
+                _MAP.update(_M, _M.getSymbol());
+            }
             break;
         }
         case 2: {
             _MAP.update(_C, _C.getSymbol());
             _MAP.update(_CH, _CH.getSymbol());
+            while(_C.getPositionX() == _CH.getPositionX() && _C.getPositionY() == _CH.getPositionY()) {
+                _MAP.update(_C, _C.getSymbol());
+                _MAP.update(_CH, _CH.getSymbol());
+            }
             break;
         }
         case 3: {
             _MAP.update(_M, _M.getSymbol());
             _MAP.update(_CH, _CH.getSymbol());
+            while(_M.getPositionX() == _CH.getPositionX() && _M.getPositionY() == _CH.getPositionY()) {
+                _MAP.update(_M, _M.getSymbol());
+                _MAP.update(_CH, _CH.getSymbol());
+            }
             break;
         }
         break;
@@ -104,8 +116,8 @@ bool Simulation::check(int players) {
     return ok;
 }
 
-void Simulation::NextRound(int players) {
-
+bool Simulation::NextRound(int players) {
+//mut fiecare agent in directia celui mai apropiat agent
     switch(players) {
         case 1: {
         _C.Move(_M.getPositionX(), _M.getPositionY(), _MAP.fightZone(_C));  //player1 se misca spre player2 si invers
@@ -118,9 +130,17 @@ void Simulation::NextRound(int players) {
             _MAP.update(_M, _M.getSymbol());
             _MAP.show();
         }
-        if(_MAP.isGameOver()) {
-            return;
+        switch(_MAP.isGameOver()) {     //verific daca jocul s-a terminat si afisez cine a castigat
+            case 1: {
+                std::cout << "COOPER WON!\n";
+                return false;
+            }
+            case 2: {
+                std::cout << "MARSHALL WON!\n";
+                return false;
+            }
         }
+        return true;
         break;
         }
         case 2: {
@@ -134,9 +154,17 @@ void Simulation::NextRound(int players) {
             _MAP.update(_CH, _CH.getSymbol());
             _MAP.show();
         }
-        if(_MAP.isGameOver()) {
-            return;
+        switch(_MAP.isGameOver()) {
+            case 1: {
+                std::cout << "COOPER WON!\n";
+                return false;
+            }
+            case 3: {
+                std::cout << "CHRIS WON!\n";
+                return false;
+            }
         }
+        return true;
         break;
         }
         case 3: {
@@ -150,12 +178,19 @@ void Simulation::NextRound(int players) {
             _MAP.update(_M, _M.getSymbol());
             _MAP.show();
         }
-        if(_MAP.isGameOver()) {
-            return;
+        switch(_MAP.isGameOver()) {
+            case 2: {
+                std::cout << "MARSHALL WON!\n";
+                return false;
+            }
+            case 3: {
+                std::cout << "CHRIS WON!\n";
+                return false;
+            }
         }
+        return true;
         break;
         }
     }
-
-    //mut fiecare agent in directia celui mai apropiat agent
+    return true;
 }

@@ -14,7 +14,7 @@ public:
 	Simulation(const Simulation&);
 	void show();
 	bool check(int); //functia verifica daca moare un agent
-	void NextRound(int);
+	bool NextRound(int);
 
 private:
 	Map _MAP;

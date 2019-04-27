@@ -165,7 +165,7 @@ int Map::closestEnemy(Player& a) {
     return 0;
 }
 
-bool Map::isGameOver() {
+int Map::isGameOver() {
     int i, j, nr = 0, sym = 0;
     for(i = 0; i <= 24; i++) {
         for(j = 0; j <= 24; j++) {
@@ -177,14 +177,14 @@ bool Map::isGameOver() {
     }
 
     if(nr == 1) {
-        cout << "GAME OVER!\n\nPLAYER " << sym << " WON!\n";
-        return true;
+        cout << "GAME OVER!\n\n";
+        return sym;
     }
     else {
         if(nr == 0) {
             cout << "GAME OVER!\n\nNOBODY WON!\n";
-            return true;
+            return 100;
         }
     }
-    return false;
+    return 0;
 }

@@ -182,7 +182,7 @@ Coordonata* Chris::shoot(int& nr) {
     nr = 0;
     //impart in trei bucati stocarea traiectoriei
     //Partea de sus:
-    for(i = maxUp; i <= maxUp + range / 2 + 1; i++) {  //stochez in v de tip Coordonata toate locurile prin care poate trece glontul
+    for(i = maxUp; i <= maxUp + range / 2; i++) {  //stochez in v de tip Coordonata toate locurile prin care poate trece glontul
         for(j = maxLeft; j <= maxRight; j++) {
                 v[nr].setX(i);
                 v[nr++].setY(j);
@@ -191,7 +191,7 @@ Coordonata* Chris::shoot(int& nr) {
 
 
     //Partea de la mijloc:
-    for(i = this->getPositionX() - range / 2; i <= this->getPositionX() + range / 2; i++) {
+    for(i = this->getPositionX() - range / 2 - 1; i <= this->getPositionX() + range / 2 + 1; i++) {
         for(j = maxLeft; j <= maxLeft + range / 2; j++) {
             v[nr].setX(i);
             v[nr++].setY(j);
@@ -204,7 +204,7 @@ Coordonata* Chris::shoot(int& nr) {
     }
 
     //Partea de jos:
-    for(i = maxDown - range / 2 - 1; i <= maxDown; i++) {
+    for(i = maxDown - range / 2; i <= maxDown; i++) {
         for(j = maxLeft; j <= maxRight; j++) {
                 v[nr].setX(i);
                 v[nr++].setY(j);

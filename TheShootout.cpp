@@ -7,6 +7,9 @@ int main() {
 	int option;
 
     cout << "THE SHOOTOUT\n\n";
+    cout << "Each player has a single life and an armor at the beginning of the game.\n";
+    cout << "After being shot once, the armor is gone but the player moves faster.\n";
+    cout << "Last man standing wins!\n\n";
     cout << "1) Start Game\n";
     cout << "2) Exit\n\n";
     cin >> option;
